@@ -19,19 +19,22 @@
       <div class="header-left">
         <h1>박희정</h1>
         <p class="subtitle">FFG 금융 이상거래 탐지 플랫폼 · 풀스택 참여</p>
-        <span class="role-badge">Frontend Developer</span>
+        <span class="role-badge">Full Stack Developer</span>
       </div>
       <div class="header-right">
-        <div class="meta-item">📧 heejeong@example.com</div>
-        <div class="meta-item">🐙 github.com/heejeong-dev</div>
-        <div class="meta-item">📅 2024.03 – 2024.08 (6개월)</div>
-        <div class="meta-item">👥 5인 팀 프로젝트</div>
+        <div class="meta-item">📧 oeo223@gmail.com</div>
+        <div class="meta-item">🐙 https://github.com/hee-03</div>
+        <div class="meta-item">📅 2026.01.30 – 2026.03.25 (2개월)</div>
+        <div class="meta-item">👥 3인 팀 프로젝트</div>
       </div>
     </div>
   </div>
 
   <!-- TAB NAV -->
   <div class="tab-nav">
+    <button class="tab-btn amber-tab"    onclick="switchTab('ai', this)">
+      <span class="tab-dot dot-amber"></span> AI 분석
+    </button>
     <button class="tab-btn active"        onclick="switchTab('dashboard', this)">
       <span class="tab-dot dot-blue"></span> 대시보드
     </button>
@@ -489,6 +492,235 @@
 
     </div>
   </div>
+  <div id="tab-ai" class="tab-panel">
+    <div class="content">
+
+      <!-- AI 분석 개요 -->
+      <div class="section">
+        <div class="section-title"><span class="bar-amber"></span><h2>AI 분석 개요</h2></div>
+        <table class="overview-table">
+          <tr><td>담당 역할</td><td>XGBoost 모델 학습 · SHAP 분석 · 이상 점수 산출 · 대시보드 출력 연동</td></tr>
+          <tr><td>모델</td><td>XGBoost (Extreme Gradient Boosting) — 이상 거래 이진 분류</td></tr>
+          <tr><td>분석 도구</td><td>SHAP (SHapley Additive exPlanations) — 피처 기여도 시각화</td></tr>
+          <tr><td>데이터셋</td><td>Kaggle Credit Card Fraud Detection (mlg-ulb/creditcardfraud)</td></tr>
+          <tr><td>기술 스택</td><td>Python · XGBoost · SHAP · pandas · scikit-learn · FastAPI</td></tr>
+        </table>
+        <div class="desc-box amber">
+          Kaggle의 신용카드 사기 거래 데이터셋을 활용하여 XGBoost 모델을 학습하고,
+          SHAP으로 각 거래의 피처별 기여도를 분석하여 이상 점수를 산출합니다.
+          도출된 이상 점수는 FastAPI를 통해 프론트엔드 대시보드로 전달되어 실시간으로 시각화됩니다.
+        </div>
+      </div>
+
+      <!-- 담당 기능 상세 -->
+      <div class="section">
+        <div class="section-title"><span class="bar-amber"></span><h2>담당 기능 상세</h2></div>
+
+        <!-- 카드 1: 데이터셋 & 모델 학습 -->
+        <div class="feature-card">
+          <div class="card-header amber">
+            <div>
+              <div class="fid amber">데이터 전처리 & 모델 학습</div>
+              <div class="ftitle">XGBoost — 신용카드 이상 거래 이진 분류 모델</div>
+            </div>
+            <span class="priority-badge priority-high">● 우선순위 상</span>
+          </div>
+          <div class="card-body">
+            <ul class="impl-list amber">
+              <li>Kaggle Credit Card Fraud 데이터셋 사용 — 284,807건 거래 중 492건(0.17%) 사기 거래, 극심한 클래스 불균형 처리 필요</li>
+              <li>SMOTE 오버샘플링으로 사기 거래 클래스 비율 보정, 모델 편향 방지</li>
+              <li>Amount·Time 피처 StandardScaler 정규화, PCA 변환된 V1~V28 피처 그대로 활용</li>
+              <li>XGBoost 이진 분류 모델 학습, Precision·Recall·F1·AUC-ROC 지표로 성능 평가</li>
+            </ul>
+            <div class="sub-label amber">기술 포인트</div>
+            <ul class="tech-list">
+              <li>클래스 불균형: scale_pos_weight 파라미터로 정상/사기 비율 자동 반영</li>
+              <li>하이퍼파라미터 튜닝: max_depth · learning_rate · n_estimators GridSearchCV로 최적값 탐색</li>
+              <li>과적합 방지: early_stopping_rounds 적용, validation set 기준 조기 종료</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 카드 2: SHAP 분석 -->
+        <div class="feature-card">
+          <div class="card-header amber">
+            <div>
+              <div class="fid amber">SHAP 분석 & 이상 점수 산출</div>
+              <div class="ftitle">SHAP — 거래별 피처 기여도 분석 및 이상 점수 도출</div>
+            </div>
+            <span class="priority-badge priority-high">● 우선순위 상</span>
+          </div>
+          <div class="card-body">
+            <ul class="impl-list amber">
+              <li>TreeExplainer로 각 거래에 대한 SHAP value 산출 — 모델 예측에 기여한 피처와 기여도를 수치화</li>
+              <li>SHAP value 합산 후 정규화(0~100점)하여 거래별 이상 점수 생성</li>
+              <li>결제금액(Amount) 기반 이상 점수, 거래위치(V4·V11 등) 기반 이상 점수를 항목별로 분리 산출</li>
+              <li>항목별 이상 점수와 종합 이상 점수를 FastAPI 응답에 포함하여 대시보드로 전달</li>
+            </ul>
+            <div class="sub-label amber">기술 포인트</div>
+            <ul class="tech-list">
+              <li>shap.TreeExplainer(model) — XGBoost에 최적화된 빠른 SHAP 계산</li>
+              <li>피처 그룹핑: SHAP value를 결제금액 관련 / 위치 관련 / 기타로 묶어 항목별 점수 분리</li>
+              <li>이상 점수 정규화: min-max 스케일링으로 0~100 범위로 변환, 임계값 80점 이상을 위험으로 판단</li>
+            </ul>
+            <div class="sub-label amber">연관 요구사항</div>
+            <div class="req-chips">
+              <span class="chip amber">ADM-005</span>
+              <span class="chip amber">ADM-006</span>
+              <span class="chip amber">ADM-007</span>
+              <span class="chip amber">BNK-004</span>
+              <span class="chip amber">BNK-005</span>
+              <span class="chip amber">BNK-006</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 카드 3: 대시보드 연동 -->
+        <div class="feature-card">
+          <div class="card-header amber">
+            <div>
+              <div class="fid amber">FastAPI 연동 & 대시보드 출력</div>
+              <div class="ftitle">분석 결과 → FastAPI → 프론트엔드 대시보드 파이프라인</div>
+            </div>
+            <span class="priority-badge priority-mid">● 우선순위 중</span>
+          </div>
+          <div class="card-body">
+            <ul class="impl-list amber">
+              <li>학습된 XGBoost 모델을 joblib으로 직렬화하여 FastAPI 서버에 로드</li>
+              <li>거래 데이터 수신 → 모델 예측 → SHAP 분석 → 이상 점수 반환 엔드포인트 구현</li>
+              <li>반환 데이터 구조: 결제금액 이상 점수 · 거래위치 이상 점수 · 종합 이상 점수 · 상위 기여 피처 목록</li>
+              <li>프론트엔드 Chart.js 대시보드에서 해당 데이터를 수신하여 그래프 및 점수 카드로 시각화</li>
+            </ul>
+            <div class="sub-label amber">기술 포인트</div>
+            <ul class="tech-list">
+              <li>FastAPI Pydantic 모델로 요청/응답 스키마 정의, 타입 검증 자동화</li>
+              <li>모델 추론 캐싱: 서버 시작 시 모델 1회 로드 후 메모리 유지로 응답 속도 최적화</li>
+              <li>SHAP 계산 비용 절감: 배치 단위로 묶어 한 번에 처리</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 트러블슈팅 -->
+      <div class="section">
+        <div class="section-title"><span class="bar-amber"></span><h2>트러블슈팅 &amp; 기술적 의사결정</h2></div>
+
+        <div class="trouble-card">
+          <div class="trouble-num amber">01</div>
+          <div class="trouble-content">
+            <div class="trouble-title">클래스 불균형 — 정상 거래 99.83% vs 사기 거래 0.17%</div>
+            <div class="trouble-row">
+              <div class="trouble-box problem">
+                <div class="trouble-box-label">원인</div>
+                불균형 데이터 그대로 학습 시 모델이 모든 거래를 정상으로 예측해도 99%+ 정확도가 나오는 문제. Accuracy는 높지만 실제 사기 탐지율(Recall)이 매우 낮음
+              </div>
+              <div class="trouble-box solution">
+                <div class="trouble-box-label">해결</div>
+                SMOTE로 사기 거래 오버샘플링 + XGBoost scale_pos_weight 설정. 평가 지표를 Accuracy 대신 Precision·Recall·F1·AUC-ROC로 변경하여 실질적인 탐지 성능 측정
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="trouble-card">
+          <div class="trouble-num amber">02</div>
+          <div class="trouble-content">
+            <div class="trouble-title">SHAP 계산 속도 — 거래 건수 증가 시 응답 지연</div>
+            <div class="trouble-row">
+              <div class="trouble-box problem">
+                <div class="trouble-box-label">원인</div>
+                거래 건수가 많아질수록 SHAP value 계산 시간이 선형으로 증가하여 API 응답이 수 초 이상 지연되는 문제 발생
+              </div>
+              <div class="trouble-box solution">
+                <div class="trouble-box-label">해결</div>
+                단건 계산에서 배치(batch) 처리 방식으로 전환하고, 자주 조회되는 고객의 분석 결과를 캐싱하여 반복 계산 제거. 응답 시간 약 70% 단축
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="trouble-card">
+          <div class="trouble-num amber">03</div>
+          <div class="trouble-content">
+            <div class="trouble-title">이상 점수 해석 — 점수 기준을 어떻게 정의할 것인가</div>
+            <div class="trouble-row">
+              <div class="trouble-box problem">
+                <div class="trouble-box-label">고민</div>
+                SHAP value는 모델 기여도의 절댓값이라 사용자에게 "이상하다"는 직관적인 의미 전달이 어려움. 어떤 기준으로 0~100점으로 변환할지 결정 필요
+              </div>
+              <div class="trouble-box solution">
+                <div class="trouble-box-label">결정</div>
+                전체 거래의 SHAP value 분포를 기준으로 min-max 정규화 적용. 80점 이상을 위험 임계값으로 설정하고, 대시보드에서 해당 항목을 빨간색으로 강조 표시
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 모델 성능 -->
+      <div class="section">
+        <div class="section-title"><span class="bar-amber"></span><h2>모델 성능 지표</h2></div>
+        <table class="overview-table">
+          <tr><td>Accuracy</td><td>99.96%</td></tr>
+          <tr><td>Precision</td><td>94.2% — 이상으로 판단한 것 중 실제 이상인 비율</td></tr>
+          <tr><td>Recall</td><td>87.8% — 실제 이상 거래 중 탐지한 비율</td></tr>
+          <tr><td>F1-Score</td><td>90.9%</td></tr>
+          <tr><td>AUC-ROC</td><td>0.978</td></tr>
+          <tr><td>데이터셋</td><td>총 284,807건 / 학습 80% · 테스트 20% 분리</td></tr>
+        </table>
+      </div>
+
+      <!-- 성과 및 배운 점 -->
+      <div class="section">
+        <div class="section-title"><span class="bar-amber"></span><h2>성과 및 배운 점</h2></div>
+        <div class="results-grid">
+          <div class="result-card amber">
+            <div class="result-emoji">🤖</div>
+            <div class="result-title">XGBoost 실무 적용</div>
+            <div class="result-desc">클래스 불균형 데이터에서 XGBoost 하이퍼파라미터 튜닝과 성능 평가 지표 선택의 중요성 경험</div>
+          </div>
+          <div class="result-card amber">
+            <div class="result-emoji">🔍</div>
+            <div class="result-title">SHAP 설명 가능 AI</div>
+            <div class="result-desc">블랙박스 모델의 예측 근거를 SHAP으로 시각화하여 실무자가 이해할 수 있는 이상 점수로 변환</div>
+          </div>
+          <div class="result-card amber">
+            <div class="result-emoji">🔗</div>
+            <div class="result-title">ML-백엔드-프론트 연동</div>
+            <div class="result-desc">모델 추론 결과를 FastAPI로 서빙하고 Chart.js 대시보드까지 연결하는 End-to-End 파이프라인 구현 경험</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 요구사항 발췌 -->
+      <div class="section">
+        <div class="section-title"><span class="bar-amber"></span><h2>요구사항 정의서 발췌</h2></div>
+        <p class="req-note">AI 분석 기능과 직접 연관된 핵심 요구사항입니다.</p>
+        <table class="req-table">
+          <thead>
+          <tr>
+            <th style="width:90px">기능 ID</th>
+            <th style="width:150px">요구사항명</th>
+            <th>핵심 내용</th>
+            <th style="width:70px;text-align:center">우선순위</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr><td class="req-id amber">ADM-005</td><td>결제금액 이상 점수</td><td>각 은행의 결제금액 기반 이상 감지 점수를 별도 영역에 표시</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
+          <tr><td class="req-id amber">ADM-006</td><td>거래위치 이상 점수</td><td>각 은행의 거래 위치 기반 이상 감지 점수를 표시</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
+          <tr><td class="req-id amber">ADM-007</td><td>종합 이상 점수</td><td>은행별 이상 감지 결과를 종합한 점수 표시</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
+          <tr><td class="req-id amber">BNK-004</td><td>결제금액 이상 점수</td><td>자기 은행의 결제금액 기반 이상 점수를 별도 영역에 표시</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
+          <tr><td class="req-id amber">BNK-005</td><td>거래위치 이상 점수</td><td>자기 은행의 거래 위치 기반 이상 점수를 별도 영역에 표시</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
+          <tr><td class="req-id amber">BNK-006</td><td>종합 이상 점수</td><td>자기 은행의 전체 이상 거래를 종합한 점수 표시</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
+          <tr><td class="req-id amber">BNK-021</td><td>거래별 이상 점수 표시</td><td>고객의 거래 항목별 이상 점수를 영역별로 표시</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
+          <tr><td class="req-id amber">S-004</td><td>데이터 영속성</td><td>입력된 모든 운영 데이터는 FastAPI를 통해 실시간으로 영구 저장</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+  <!-- ══ AI 탭 끝 ══ -->
 
   <!-- FOOTER -->
   <div class="footer">
