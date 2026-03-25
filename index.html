@@ -24,7 +24,7 @@
       <div class="header-right">
         <div class="meta-item">📧 oeo223@gmail.com</div>
         <div class="meta-item">🐙 https://github.com/hee-03</div>
-        <div class="meta-item">📅 2026.01.30 – 2026.03.25 (2개월)</div>
+        <div class="meta-item">📅 2026.02.02 – 2026.03.25 (2개월)</div>
         <div class="meta-item">👥 3인 팀 프로젝트</div>
       </div>
     </div>
@@ -57,7 +57,8 @@
         <table class="overview-table">
           <tr><td>프로젝트명</td><td>FFG 금융 이상거래 탐지 플랫폼 (FDS Dashboard)</td></tr>
           <tr><td>담당 역할</td><td>프론트엔드 개발 — 관리자 대시보드 · 은행 대시보드</td></tr>
-          <tr><td>기술 스택</td><td> Vue · Flask · TypeScript · Chart.js · Axios</td></tr>
+          <tr><td>기술 스택</td><td> · Flask ·  · Chart.js · Axios</td></tr>
+          <!--TODO: TypeScript Vue 따로 빼서 vue로 정리-->
           <tr><td>백엔드</td><td>FastAPI (Python) · MyBatis · OracleDB</td></tr>
           <tr><td>협업 도구</td><td>Git / GitHub · Figma · Canva · Google Drive</td></tr>
         </table>
@@ -98,6 +99,10 @@
               <span class="chip blue">ADM-001</span><span class="chip blue">ADM-002</span>
               <span class="chip blue">ADM-003</span><span class="chip blue">ADM-004</span>
               <span class="chip blue">ADM-007</span><span class="chip blue">ADM-013</span>
+            </div>
+            <div class="sub-label blue">연관 기술</div>
+            <div class="req-chips">
+              <span class="chip blue">세션</span><span class="chip blue">Chart.js</span>
             </div>
           </div>
         </div>
@@ -150,8 +155,11 @@
           <div class="trouble-content">
             <div class="trouble-title">권한 우회 시도 — URL 직접 입력으로 타 은행 대시보드 접근</div>
             <div class="trouble-row">
-              <div class="trouble-box problem"><div class="trouble-box-label">원인</div>프론트엔드 라우팅 가드만으로는 URL 직접 입력 시 데이터가 노출되는 취약점 발견</div>
-              <div class="trouble-box solution"><div class="trouble-box-label">해결</div>JWT의 bank_code와 요청 파라미터를 서버에서 대조 검증. 불일치 시 403 반환하도록 백엔드 팀과 협의</div>
+              <div class="trouble-box problem"><div class="trouble-box-label">원인</div>로그인 후 role 기반 페이지 분기만으로는 URL 직접 입력 시 데이터가 노출되는 취약점 발견</div>
+              <div class="trouble-box solution"><div class="trouble-box-label">해결</div>백엔드(Flask)에서 세션의 bank_code와 URL 파라미터를 대조.
+                일반 은행 사용자는 URL 파라미터를 무시하고 세션값으로 강제 고정하여
+                타 은행 데이터 접근을 원천 차단. 관리자(/admin_dashboard)는
+                role 검증 후 미충족 시 리다이렉트 처리.</div>
             </div>
           </div>
         </div>
@@ -170,9 +178,9 @@
       <div class="section">
         <div class="section-title"><span class="bar-blue"></span><h2>성과 및 배운 점</h2></div>
         <div class="results-grid">
-          <div class="result-card blue"><div class="result-emoji">📊</div><div class="result-title">데이터 시각화</div><div class="result-desc">Chart.js 동적 색상 생성 및 조건부 강조로 금융 데이터 가독성 극대화</div></div>
-          <div class="result-card blue"><div class="result-emoji">🔒</div><div class="result-title">이중 보안 설계</div><div class="result-desc">프론트 가드 + 백엔드 검증 이중 구조의 중요성과 구현 방식 경험</div></div>
-          <div class="result-card blue"><div class="result-emoji">♻️</div><div class="result-title">컴포넌트 재사용</div><div class="result-desc">공통 ChartCard 컴포넌트 추출로 코드 중복 없이 UI 일관성 유지</div></div>
+          <div class="result-card blue"><div class="result-emoji">📊</div><div class="result-title">데이터 시각화</div><div class="result-desc">Chart.js로 시간대별 막대그래프·월별 라인차트를 구현하고, onMounted 시 API 호출로 DB 데이터를 실시간 렌더링</div></div>
+          <div class="result-card blue"><div class="result-emoji">🔒</div><div class="result-title">백엔드 중심 보안 설계</div><div class="result-desc">프론트(401/403 응답 시 리다이렉트) + 백엔드(세션 bank_code 강제 고정) 조합으로 URL 직접 입력을 통한 타 은행 데이터 접근 차단</div></div>
+          <div class="result-card blue"><div class="result-emoji">⚡</div><div class="result-title">DB 연동 실시간 출력</div><div class="result-desc">axios로 Flask·Spring REST API를 호출해 거래 통계·이상거래 목록을 sessionStorage 사용자 정보와 결합하여 동적으로 출력</div></div>
         </div>
       </div>
 
@@ -206,13 +214,14 @@
         <div class="section-title"><span class="bar-teal"></span><h2>채팅 기능 개요</h2></div>
         <table class="overview-table">
           <tr><td>담당 역할</td><td>채팅 모달 UI 전체 구현 — 채팅방 목록, 실시간 메시지 송수신, 권한별 접근 제어</td></tr>
-          <tr><td>기술 스택</td><td>React · WebSocket · Styled-Components · JWT</td></tr>
+          <tr><td>기술 스택</td><td>Vanilla JS · WebSocket · CSS · FastAPI · Oracle DB</td></tr>
           <tr><td>주요 특징</td><td>관리자 ↔ 은행 전용 채팅 / 은행 간 직접 채팅 차단 / 모달 기반 UI</td></tr>
         </table>
         <div class="desc-box teal">
           관리자와 각 은행 담당자 간 1:1 채팅 기능입니다. 좌측 네비게이션의 채팅 버튼을 누르면 모달로 열리며,
-          탭 전환으로 채팅 대상 목록과 채팅방 목록을 구분하여 확인할 수 있습니다.
-          은행 사용자 간 직접 채팅은 보안 정책상 허용하지 않습니다.
+          좌측 사용자 목록에서 대화 상대를 선택해 채팅방을 열 수 있습니다.
+          채팅 UI는 Vanilla JS로 동적 생성되며, 스타일은 별도 CSS 파일로 분리 관리합니다.
+          은행 사용자 간 직접 채팅은 프론트·백엔드 양측에서 모두 차단합니다.
         </div>
       </div>
 
@@ -229,16 +238,18 @@
           </div>
           <div class="card-body">
             <ul class="impl-list teal">
-              <li>모달 내 탭 구조로 채팅 대상 목록(은행 리스트)과 채팅방 목록(최근 순) 전환</li>
-              <li>선택된 채팅방의 대화 내역을 시간 순으로 표시, 발신/수신 메시지 좌우 구분</li>
+              <li>Vanilla JS로 채팅 모달 HTML 구조 전체를 동적 생성, 사이드바 채팅 버튼 클릭 시 모달 토글</li>
+              <li>좌측 사용자 목록에서 대화 상대 선택 시 채팅방 오픈, 우측에 대화 내역 시간순 표시</li>
+              <li>발신/수신 메시지 좌우 말풍선 구분, 날짜 변경 시 날짜 구분선 자동 삽입</li>
+              <li>사용자 목록에 최근 메시지 미리보기(10자 이하) 및 읽지 않은 메시지 뱃지 표시</li>
               <li>하단 입력창에서 메시지 작성 및 전송, Enter 키 전송 지원</li>
-              <li>채팅방 목록에 가장 최근 메시지 미리보기 및 읽지 않은 메시지 알림 뱃지 표시</li>
             </ul>
             <div class="sub-label teal">기술 포인트</div>
             <ul class="tech-list">
-              <li>WebSocket 연결로 실시간 메시지 수신, 컴포넌트 언마운트 시 연결 해제 처리</li>
-              <li>메시지 영역 스크롤: 새 메시지 수신 시 자동으로 최하단으로 스크롤 이동</li>
-              <li>채팅 대상 검색: 은행명 입력 시 목록 실시간 필터링</li>
+              <li>WebSocket 단일 연결로 실시간 메시지 수신, 수신자 오프라인 시 DB 저장 후 재접속 시 chat_history API로 복원</li>
+              <li>새 메시지 수신 시 messages 영역 자동 스크롤 최하단 이동</li>
+              <li>chat_latest API로 초기 로드 시 각 상대방의 최신 메시지 미리보기·미읽음 수 일괄 표시</li>
+              <li>모달 외부 클릭 및 X버튼으로 닫기, chatRooms 객체로 채팅방 상태 메모리 유지</li>
             </ul>
             <div class="sub-label teal">연관 요구사항</div>
             <div class="req-chips">
@@ -260,15 +271,15 @@
           </div>
           <div class="card-body">
             <ul class="impl-list teal">
-              <li>관리자: 모든 은행과 채팅 가능 — 채팅 대상 목록에 전체 은행 표시</li>
-              <li>은행 사용자: 관리자와의 채팅만 가능 — 채팅 대상 목록에 관리자만 표시</li>
-              <li>은행 사용자 간 직접 채팅 시도 차단 — UI에서 선택 불가하도록 비활성화 처리</li>
-              <li>JWT 토큰의 role 값으로 렌더링되는 채팅 대상 목록을 서버 응답 기준으로 분리</li>
+              <li>관리자(bank_code: 01): chat_users API에서 전체 사용자 목록 수신, 모든 은행과 채팅 가능</li>
+              <li>은행 사용자: chat_users API에서 동일 은행 코드 + 관리자(01) 목록만 수신</li>
+              <li>프론트엔드에서 타 은행 사용자를 목록에서 필터링하여 선택 자체를 원천 차단</li>
+              <li>백엔드(WebSocket)에서 sender_bank·receiver_bank 대조 후 권한 없으면 메시지 전송 차단(continue)</li>
             </ul>
             <div class="sub-label teal">기술 포인트</div>
             <ul class="tech-list">
-              <li>useAuth 훅에서 role 추출 후 채팅 대상 목록 API 엔드포인트를 분기 호출</li>
-              <li>채팅 대상 항목에 role 기반 disabled 처리 + 접근 시도 시 안내 토스트 표시</li>
+              <li>window.FFG_BANK_CODE(Flask 세션값)를 기준으로 chat_users API 호출, 서버에서 bank_code별 목록 분기 반환</li>
+              <li>프론트 필터링 + 백엔드 권한 검사 이중 구조로 URL 직접 조작 시에도 차단</li>
             </ul>
             <div class="sub-label teal">연관 요구사항</div>
             <div class="req-chips">
@@ -284,30 +295,30 @@
         <div class="trouble-card">
           <div class="trouble-num teal">01</div>
           <div class="trouble-content">
-            <div class="trouble-title">모달 외부 클릭 시 채팅 상태 초기화 문제</div>
+            <div class="trouble-title">모달 외부 클릭 시 채팅 상태 유지 문제</div>
             <div class="trouble-row">
-              <div class="trouble-box problem"><div class="trouble-box-label">원인</div>모달 닫기 시 컴포넌트가 언마운트되어 선택된 채팅방 상태가 사라지고, 재진입 시 처음부터 탐색해야 하는 UX 문제 발생</div>
-              <div class="trouble-box solution"><div class="trouble-box-label">해결</div>채팅 상태(선택된 채팅방 ID, 스크롤 위치)를 전역 상태(Context)로 분리하여 모달 언마운트 후에도 상태 유지</div>
+              <div class="trouble-box problem"><div class="trouble-box-label">원인</div>모달을 닫았다 재오픈 시 이전에 열었던 채팅방과 메시지 내역이 사라지는 UX 문제 발생</div>
+              <div class="trouble-box solution"><div class="trouble-box-label">해결</div>채팅방 메시지를 chatRooms 객체(메모리)에 보존, 모달 display만 토글하여 재오픈 시 상태 그대로 유지</div>
             </div>
           </div>
         </div>
         <div class="trouble-card">
           <div class="trouble-num teal">02</div>
           <div class="trouble-content">
-            <div class="trouble-title">WebSocket 다중 연결 — 탭 전환 시 중복 소켓 연결</div>
+            <div class="trouble-title">오프라인 사용자 메시지 수신 누락</div>
             <div class="trouble-row">
-              <div class="trouble-box problem"><div class="trouble-box-label">원인</div>채팅방 탭 전환 시마다 새 WebSocket 연결이 생성되어 메시지가 중복 수신되는 현상 발생</div>
-              <div class="trouble-box solution"><div class="trouble-box-label">해결</div>useEffect cleanup에서 기존 소켓 close 처리, 채팅방 ID를 의존성 배열에 추가하여 채팅방 변경 시에만 재연결</div>
+              <div class="trouble-box problem"><div class="trouble-box-label">원인</div>WebSocket은 실시간 연결 기반이라 수신자가 오프라인일 경우 메시지가 전달되지 않는 문제 발생</div>
+              <div class="trouble-box solution"><div class="trouble-box-label">해결</div>메시지 전송 시 DB에 IS_READ=0으로 우선 저장, 재접속 시 chat_history API로 과거 메시지 조회하여 복원</div>
             </div>
           </div>
         </div>
         <div class="trouble-card">
           <div class="trouble-num teal">03</div>
           <div class="trouble-content">
-            <div class="trouble-title">미확인 메시지 뱃지 — 다른 화면 이동 중 새 메시지 감지</div>
+            <div class="trouble-title">미확인 메시지 뱃지 — 모달 닫힌 상태에서 새 메시지 감지</div>
             <div class="trouble-row">
-              <div class="trouble-box problem"><div class="trouble-box-label">원인</div>채팅 모달이 닫혀 있는 동안 수신된 메시지의 읽음 여부를 프론트에서 추적하지 못하는 문제</div>
-              <div class="trouble-box solution"><div class="trouble-box-label">해결</div>전역 WebSocket 연결을 앱 최상단에서 유지, 수신 메시지를 전역 상태에 누적하여 모달 미오픈 상태에서도 카운트 갱신</div>
+              <div class="trouble-box problem"><div class="trouble-box-label">원인</div>모달이 닫혀 있거나 다른 채팅방이 열린 상태에서 수신된 메시지의 읽음 여부를 추적하지 못하는 문제</div>
+              <div class="trouble-box solution"><div class="trouble-box-label">해결</div>WebSocket 단일 연결을 페이지 전체에서 유지, 현재 열린 채팅방 외 수신 메시지는 unreadCounts 객체에 누적하여 사이드바·목록 뱃지 실시간 갱신</div>
             </div>
           </div>
         </div>
@@ -316,9 +327,9 @@
       <div class="section">
         <div class="section-title"><span class="bar-teal"></span><h2>성과 및 배운 점</h2></div>
         <div class="results-grid">
-          <div class="result-card teal"><div class="result-emoji">🔌</div><div class="result-title">WebSocket 관리</div><div class="result-desc">연결 생명주기 관리와 중복 연결 방지 패턴을 실무에서 직접 경험</div></div>
-          <div class="result-card teal"><div class="result-emoji">🗂️</div><div class="result-title">전역 상태 설계</div><div class="result-desc">채팅 상태를 Context로 분리하여 모달 언마운트에도 UX 연속성 유지</div></div>
-          <div class="result-card teal"><div class="result-emoji">🛡️</div><div class="result-title">역할 기반 UI 제어</div><div class="result-desc">JWT role 값으로 채팅 대상 목록을 서버·클라이언트 양측에서 분리</div></div>
+          <div class="result-card teal"><div class="result-emoji">🔌</div><div class="result-title">WebSocket 생명주기 관리</div><div class="result-desc">단일 소켓 유지 전략과 오프라인 메시지 DB 저장 후 재접속 복원 패턴을 직접 구현</div></div>
+          <div class="result-card teal"><div class="result-emoji">🗂️</div><div class="result-title">메모리 기반 상태 유지</div><div class="result-desc">chatRooms 객체로 채팅방 상태를 보존하여 모달 닫기·열기 시에도 UX 연속성 유지</div></div>
+          <div class="result-card teal"><div class="result-emoji">🛡️</div><div class="result-title">이중 권한 제어</div><div class="result-desc">프론트 목록 필터링 + 백엔드 WebSocket 권한 검사로 은행 간 채팅 차단을 이중으로 구현</div></div>
         </div>
       </div>
 
@@ -328,15 +339,15 @@
         <table class="req-table">
           <thead><tr><th style="width:90px">기능 ID</th><th style="width:150px">요구사항명</th><th>핵심 내용</th><th style="width:70px;text-align:center">우선순위</th></tr></thead>
           <tbody>
-          <tr><td class="req-id teal">CH-001</td><td>채팅 대상 목록 조회</td><td>관리자는 채팅 가능한 은행 목록을 리스트로 확인</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
-          <tr><td class="req-id teal">CH-002</td><td>채팅방 목록 조회</td><td>참여 중인 채팅방 목록을 최근 순으로 표시</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
-          <tr><td class="req-id teal">CH-006</td><td>채팅 메시지 표시</td><td>선택된 채팅방 대화 내역을 시간 순으로 표시</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
-          <tr><td class="req-id teal">CH-008</td><td>메시지 전송</td><td>입력창에서 메시지 작성 후 전송</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
-          <tr><td class="req-id teal">CH-011</td><td>채팅 컨텍스트 유지</td><td>다른 화면 이동 후 재진입 시 기존 채팅방 상태 유지</td><td style="text-align:center"><span class="pri-mid">중</span></td></tr>
-          <tr><td class="req-id teal">CH-013</td><td>미확인 메시지 표시</td><td>읽지 않은 메시지가 있을 경우 알림 뱃지 표시</td><td style="text-align:center"><span class="pri-mid">중</span></td></tr>
-          <tr><td class="req-id teal">CH-015</td><td>관리자 접근 권한</td><td>관리자는 모든 은행과 채팅 가능</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
-          <tr><td class="req-id teal">CH-016</td><td>은행 사용자 접근 권한</td><td>은행 사용자는 관리자와의 채팅만 가능</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
-          <tr><td class="req-id teal">CH-017</td><td>채팅 대상 제한</td><td>은행 사용자 간 직접 채팅 불허</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
+          <tr><td class="req-id teal">CH-001</td><td>채팅 대상 목록 조회</td><td>bank_code 기준으로 접근 가능한 사용자 목록을 API에서 수신하여 표시</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
+          <tr><td class="req-id teal">CH-002</td><td>채팅방 목록 조회</td><td>chat_latest API로 상대방별 최신 메시지·미읽음 수 초기 로드</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
+          <tr><td class="req-id teal">CH-006</td><td>채팅 메시지 표시</td><td>선택된 채팅방 대화 내역을 시간순·날짜 구분선 포함하여 표시</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
+          <tr><td class="req-id teal">CH-008</td><td>메시지 전송</td><td>입력창에서 메시지 작성 후 WebSocket으로 전송, DB 저장</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
+          <tr><td class="req-id teal">CH-011</td><td>채팅 컨텍스트 유지</td><td>모달 닫기 후 재진입 시 chatRooms 객체로 기존 채팅방 상태 복원</td><td style="text-align:center"><span class="pri-mid">중</span></td></tr>
+          <tr><td class="req-id teal">CH-013</td><td>미확인 메시지 표시</td><td>읽지 않은 메시지가 있을 경우 사이드바·목록 아이템에 뱃지 표시</td><td style="text-align:center"><span class="pri-mid">중</span></td></tr>
+          <tr><td class="req-id teal">CH-015</td><td>관리자 접근 권한</td><td>관리자(01)는 전체 사용자와 채팅 가능, API에서 전체 목록 반환</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
+          <tr><td class="req-id teal">CH-016</td><td>은행 사용자 접근 권한</td><td>은행 사용자는 동일 bank_code + 관리자(01)와의 채팅만 가능</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
+          <tr><td class="req-id teal">CH-017</td><td>채팅 대상 제한</td><td>은행 간 직접 채팅 차단 — 프론트 필터링 + 백엔드 WebSocket 이중 검증</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -354,12 +365,14 @@
         <div class="section-title"><span class="bar-purple"></span><h2>게시판 기능 개요</h2></div>
         <table class="overview-table">
           <tr><td>담당 역할</td><td>4개 게시판(공지사항·FAQ·커뮤니티·정밀분석의뢰) 공통 CRUD 구현</td></tr>
-          <tr><td>기술 스택</td><td>React · TypeScript · Axios · Styled-Components</td></tr>
-          <tr><td>주요 특징</td><td>동일 UI 구조 재사용 / 게시판별 역할 기반 접근 권한 분리 / 상단 고정·댓글·상태 뱃지 등 개별 기능</td></tr>
+          <tr><td>기술 스택</td><td>Flask · Jinja2 · Vanilla JS · Oracle DB</td></tr>
+          <tr><td>주요 특징</td><td>동일 UI 구조 재사용 / 게시판별 역할 기반 접근 권한 분리 / 계층형 답글 구조</td></tr>
         </table>
         <div class="desc-box purple">
-          공지사항, FAQ, 커뮤니티, 정밀분석의뢰 총 4개의 게시판을 하나의 공통 컴포넌트 구조로 구현했습니다.
-          각 게시판은 역할(관리자/은행 사용자)에 따라 읽기·쓰기·수정 권한이 다르게 적용됩니다.
+          정밀분석의뢰(1)·커뮤니티(2)·FAQ(3)·공지사항(4) 총 4개의 게시판을 board_type 값 하나로
+          동일한 템플릿(목록·작성·상세)에서 분기 처리합니다.
+          각 게시판은 역할(admin/일반 사용자-은행)에 따라 글쓰기·수정·삭제 권한이 다르게 적용되며,
+          프론트엔드 버튼 제어와 백엔드 Flask 세션 검증을 이중으로 수행합니다.
         </div>
       </div>
 
@@ -376,16 +389,18 @@
           </div>
           <div class="card-body">
             <ul class="impl-list purple">
-              <li>게시글 목록을 테이블 형태로 표시 (제목·작성자·작성일), 제목/내용 기준 검색 및 페이지네이션</li>
-              <li>게시글 클릭 시 상세 화면으로 이동, 본문·작성자·날짜 표시 후 목록 복귀 버튼 제공</li>
-              <li>글쓰기 화면에서 제목·내용 입력 후 등록, 작성 중 취소 시 이전 화면으로 이동</li>
-              <li>4개 게시판이 동일한 컴포넌트 구조를 공유하되 props로 게시판 타입을 주입하여 동작 분기</li>
+              <li>게시글 목록을 board_type별로 조회, 제목 기준 검색 및 최신순·조회수순 정렬 드롭다운 제공</li>
+              <li>게시글 클릭 시 상세 화면으로 이동, 상세 진입 시 조회수(readcnt) +1 자동 증가 처리</li>
+              <li>작성 화면에서 제목·내용·첨부 파일 입력 후 등록, 등록 시 confirm 확인창 표시</li>
+              <li>수정·삭제는 관리자 또는 작성자 본인만 가능, 버튼은 Jinja2 조건으로 프론트 제어 + Flask 서버측 이중 검증</li>
+              <li>상세 페이지에서 목록 복귀 시 기존 페이지 번호 유지 (hidden page 파라미터 전달)</li>
             </ul>
             <div class="sub-label purple">기술 포인트</div>
             <ul class="tech-list">
-              <li>BoardType enum(NOTICE·FAQ·COMMUNITY·ANALYSIS)으로 게시판별 API 경로·권한·기능 일괄 분기</li>
-              <li>usePagination 커스텀 훅으로 페이지네이션 로직을 모든 게시판에서 재사용</li>
-              <li>검색어 입력 후 debounce(300ms) 처리로 불필요한 API 호출 최소화</li>
+              <li>board_type(1~4) 하나로 URL·Jinja2 템플릿·Flask 라우터를 공통 처리, 게시판 추가 시 템플릿 수정 불필요</li>
+              <li>board_service.getBoardPageData()에서 페이징 계산(limit=7) 후 total_pages·postList를 한 번에 반환</li>
+              <li>첨부 파일은 werkzeug secure_filename으로 저장, 상세 화면에서 파일명 클릭 시 다운로드 제공</li>
+              <li>FAQ(3)·공지사항(4) 글쓰기는 URL 직접 접근 시에도 Flask 서버에서 role 재검증 후 차단</li>
             </ul>
             <div class="sub-label purple">연관 요구사항</div>
             <div class="req-chips">
@@ -407,16 +422,17 @@
           </div>
           <div class="card-body">
             <ul class="impl-list purple">
-              <li>공지사항: 상단 고정 게시글 표시, 글쓰기·수정은 관리자만 가능하도록 버튼 권한 제어</li>
-              <li>FAQ: 질문/답변 형식의 아코디언 UI, 수정 권한을 관리자로 제한</li>
-              <li>커뮤니티: 게시글 댓글 작성·조회, 조회수 표시</li>
-              <li>정밀분석의뢰: 게시글별 접수/완료 상태 뱃지 표시</li>
+              <li>공지사항·FAQ: 글쓰기 버튼을 admin에게만 렌더링, URL 직접 접근 시 서버에서도 role 검증 후 차단</li>
+              <li>커뮤니티·정밀분석의뢰: 모든 로그인 사용자 작성 가능, 수정·삭제는 작성자 본인 또는 관리자만 허용</li>
+              <li>계층형 답글: Oracle CONNECT BY 쿼리로 원글-답글 계층 구조 조회, 목록에서 lvl 깊이에 따라 들여쓰기 시각화</li>
+              <li>답글 달기 버튼 클릭 시 원글 내용을 인용한 작성 화면으로 이동, refno에 원글 board_no 저장</li>
+              <li>목록 정렬: 최신순(board_no DESC) · 조회수순(readcnt DESC) 드롭다운 선택으로 전환</li>
             </ul>
             <div class="sub-label purple">기술 포인트</div>
             <ul class="tech-list">
-              <li>권한 제어: JWT role 기반으로 글쓰기·수정 버튼 렌더링 여부를 조건부 처리</li>
-              <li>상단 고정 정렬: API 응답의 isPinned 필드 기준으로 목록 상단에 고정 게시글 우선 정렬</li>
-              <li>상태 뱃지: 접수(amber)/완료(green) 색상 구분, 관리자만 상태 변경 가능</li>
+              <li>Oracle CONNECT BY PRIOR board_no = refno + ORDER SIBLINGS BY로 계층형 정렬을 SQL 단에서 처리</li>
+              <li>목록 answer 아이템에 reply CSS 클래스 적용, lvl 값에 따라 padding-left 동적 계산으로 들여쓰기 표현</li>
+              <li>삭제 권한: 프론트 checkAuth() JS 함수 + Flask boardDelete 서버측 DB 조회 후 writer_id 일치 여부 재검증</li>
             </ul>
             <div class="sub-label purple">연관 요구사항</div>
             <div class="req-chips">
@@ -436,28 +452,29 @@
           <div class="trouble-content">
             <div class="trouble-title">4개 게시판 구현 방식 — 화면별 복사 vs 공통 컴포넌트</div>
             <div class="trouble-row">
-              <div class="trouble-box problem"><div class="trouble-box-label">고민</div>게시판마다 개별 페이지를 만들면 코드 중복이 심하고, 공통화하면 예외 케이스 처리가 복잡해지는 트레이드오프 발생</div>
-              <div class="trouble-box solution"><div class="trouble-box-label">결정</div>BoardType props 하나로 API 경로·권한·추가 기능(댓글·상태·고정)을 분기하는 공통 컴포넌트 구조 채택. 유지보수성과 확장성 확보</div>
+              <div class="trouble-box problem"><div class="trouble-box-label">고민</div>게시판마다 개별 HTML을 만들면 코드 중복이 심하고, 하나의 템플릿으로 공통화하면 게시판별 예외 처리가 복잡해지는 트레이드오프 발생</div>
+              <div class="trouble-box solution"><div class="trouble-box-label">결정</div>board_type 숫자(1~4) 하나를 URL·Flask 라우터·Jinja2 템플릿에 모두 전달하여 단일 템플릿으로 4개 게시판 분기 처리. 유지보수성과 확장성 확보</div>
+
             </div>
           </div>
         </div>
         <div class="trouble-card">
           <div class="trouble-num purple">02</div>
           <div class="trouble-content">
-            <div class="trouble-title">상단 고정 게시글 정렬 — 페이지네이션과 충돌</div>
+            <div class="trouble-title">계층형 답글 — 목록 페이지네이션과 들여쓰기 처리</div>
             <div class="trouble-row">
-              <div class="trouble-box problem"><div class="trouble-box-label">원인</div>페이지네이션 적용 시 고정 게시글이 2페이지에서도 반복 표시되거나, 1페이지에서 사라지는 정렬 오류 발생</div>
-              <div class="trouble-box solution"><div class="trouble-box-label">해결</div>고정 게시글은 별도 API로 항상 상단에 고정 렌더링하고, 일반 게시글 페이지네이션과 분리하여 독립적으로 처리</div>
+              <div class="trouble-box problem"><div class="trouble-box-label">원인</div>Oracle CONNECT BY로 계층 조회 시 답글이 원글 바로 아래 붙어야 하는데, ROWNUM 페이징 적용 시 계층 순서가 깨지는 문제 발생</div>
+              <div class="trouble-box solution"><div class="trouble-box-label">해결</div>CONNECT BY 계층 정렬을 서브쿼리에서 먼저 수행한 뒤 외부에서 ROWNUM으로 페이징 적용. lvl 값을 프론트에서 받아 padding-left로 들여쓰기 시각화</div>
             </div>
           </div>
         </div>
         <div class="trouble-card">
           <div class="trouble-num purple">03</div>
           <div class="trouble-content">
-            <div class="trouble-title">권한 분기 UI — 관리자/은행 사용자별 버튼 노출 제어</div>
+            <div class="trouble-title">권한 우회 — URL 직접 입력으로 공지사항 작성 폼 접근</div>
             <div class="trouble-row">
-              <div class="trouble-box problem"><div class="trouble-box-label">원인</div>게시판마다 권한 조건이 달라(공지: 관리자만 작성, 커뮤니티: 모두 작성 가능) 분기 로직이 컴포넌트 곳곳에 흩어지는 문제</div>
-              <div class="trouble-box solution"><div class="trouble-box-label">해결</div>getBoardPermission(boardType, role) 유틸 함수를 만들어 canWrite·canEdit 불리언을 한 곳에서 계산, 컴포넌트에서는 결과만 사용</div>
+              <div class="trouble-box problem"><div class="trouble-box-label">원인</div>Jinja2 템플릿에서 글쓰기 버튼을 admin에게만 렌더링했지만, URL 직접 입력으로 일반 사용자가 작성 폼에 접근 가능한 취약점 발견</div>
+              <div class="trouble-box solution"><div class="trouble-box-label">해결</div>boardInsertForm·boardInsertProc 라우터에서 board_type이 3·4일 때 Flask 세션 role을 재검증, admin이 아니면 flash 메시지와 함께 목록으로 리다이렉트</div>
             </div>
           </div>
         </div>
@@ -466,9 +483,9 @@
       <div class="section">
         <div class="section-title"><span class="bar-purple"></span><h2>성과 및 배운 점</h2></div>
         <div class="results-grid">
-          <div class="result-card purple"><div class="result-emoji">🧩</div><div class="result-title">컴포넌트 설계</div><div class="result-desc">BoardType props 하나로 4개 게시판을 공통 구조로 처리하는 확장 가능한 설계 경험</div></div>
-          <div class="result-card purple"><div class="result-emoji">🔑</div><div class="result-title">권한 유틸 분리</div><div class="result-desc">권한 분기 로직을 유틸 함수로 추출해 컴포넌트 의존성 없이 테스트·재사용 가능하게 구성</div></div>
-          <div class="result-card purple"><div class="result-emoji">📄</div><div class="result-title">UX 일관성</div><div class="result-desc">4개 게시판이 동일한 UI 구조를 공유하여 사용자에게 일관된 인터랙션 경험 제공</div></div>
+          <div class="result-card purple"><div class="result-emoji">🧩</div><div class="result-title">공통 템플릿 설계</div><div class="result-desc">board_type 하나로 4개 게시판을 단일 템플릿에서 처리하는 확장 가능한 구조 경험</div></div>
+          <div class="result-card purple"><div class="result-emoji">🔑</div><div class="result-title">이중 권한 검증</div><div class="result-desc">Jinja2 버튼 제어 + Flask 서버측 세션 검증으로 URL 직접 접근까지 차단하는 보안 설계 경험</div></div>
+          <div class="result-card purple"><div class="result-emoji">📄</div><div class="result-title">계층형 쿼리 활용</div><div class="result-desc">Oracle CONNECT BY로 원글-답글 계층 구조를 SQL 단에서 처리하고 lvl 기반 들여쓰기로 시각화</div></div>
         </div>
       </div>
 
@@ -478,21 +495,26 @@
         <table class="req-table">
           <thead><tr><th style="width:90px">기능 ID</th><th style="width:150px">요구사항명</th><th>핵심 내용</th><th style="width:70px;text-align:center">우선순위</th></tr></thead>
           <tbody>
-          <tr><td class="req-id purple">BRD-001</td><td>게시글 목록 조회</td><td>게시글을 테이블 형태로 표시</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
-          <tr><td class="req-id purple">BRD-005</td><td>검색 기능</td><td>제목 또는 내용 기준으로 게시글 검색</td><td style="text-align:center"><span class="pri-mid">중</span></td></tr>
-          <tr><td class="req-id purple">BRD-006</td><td>페이지네이션</td><td>게시글 목록 하단에 페이지네이션 제공</td><td style="text-align:center"><span class="pri-mid">중</span></td></tr>
-          <tr><td class="req-id purple">BRD-021</td><td>질문/답변 형식</td><td>FAQ는 질문과 답변 형식으로 게시글 구성</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
-          <tr><td class="req-id purple">BRD-022</td><td>게시글 수정 제한</td><td>FAQ 수정은 관리자만 가능</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
-          <tr><td class="req-id purple">BRD-023</td><td>상단 고정 게시글</td><td>특정 게시글을 목록 상단에 고정 표시</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
-          <tr><td class="req-id purple">BRD-024</td><td>관리자 작성 전용</td><td>공지사항 글쓰기는 관리자만 가능</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
-          <tr><td class="req-id purple">BRD-025</td><td>접근 권한 제어</td><td>게시판별 접근 권한을 역할에 따라 제한</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
-          <tr><td class="req-id purple">BRD-026</td><td>UI 통일</td><td>4개 게시판은 동일한 UI 구조 사용</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
+          <tr><td class="req-id purple">BRD-001</td><td>게시글 목록 조회</td><td>board_type별 게시글을 목록 형태로 표시, 제목 검색 지원</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
+          <tr><td class="req-id purple">BRD-005</td><td>검색 기능</td><td>제목 기준으로 게시글 검색 (GET 파라미터 전달)</td><td style="text-align:center"><span class="pri-mid">중</span></td></tr>
+          <tr><td class="req-id purple">BRD-006</td><td>페이지네이션</td><td>7건 단위 페이징, 상세 진입 후 목록 복귀 시 기존 페이지 유지</td><td style="text-align:center"><span class="pri-mid">중</span></td></tr>
+          <tr><td class="req-id purple">BRD-007</td><td>정렬 기능</td><td>최신순·조회수순 드롭다운 선택으로 목록 정렬 전환</td><td style="text-align:center"><span class="pri-mid">중</span></td></tr>
+          <tr><td class="req-id purple">BRD-013</td><td>계층형 답글</td><td>원글 하위에 답글을 계층 구조로 표시, lvl 기반 들여쓰기</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
+          <tr><td class="req-id purple">BRD-019</td><td>파일 첨부·다운로드</td><td>게시글 작성 시 파일 첨부, 상세 화면에서 파일 다운로드</td><td style="text-align:center"><span class="pri-mid">중</span></td></tr>
+          <tr><td class="req-id purple">BRD-022</td><td>수정·삭제 권한</td><td>수정·삭제는 작성자 본인 또는 관리자만 가능, 서버측 재검증</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
+          <tr><td class="req-id purple">BRD-024</td><td>관리자 작성 전용</td><td>공지사항·FAQ 글쓰기는 관리자만 가능, URL 직접 접근도 차단</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
+          <tr><td class="req-id purple">BRD-025</td><td>접근 권한 제어</td><td>게시판별 접근 권한을 Flask 세션 role 기준으로 서버에서 검증</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
+          <tr><td class="req-id purple">BRD-026</td><td>UI 통일</td><td>4개 게시판이 동일한 HTML 템플릿 구조 공유</td><td style="text-align:center"><span class="pri-high">상</span></td></tr>
           </tbody>
         </table>
       </div>
 
     </div>
   </div>
+
+  <!-- ════════════════════════════════════
+       TAB 4 : AI
+  ════════════════════════════════════ -->
   <div id="tab-ai" class="tab-panel">
     <div class="content">
 
@@ -725,8 +747,8 @@
 
   <!-- FOOTER -->
   <div class="footer">
-    <span>본 문서는 포트폴리오 목적으로 작성되었습니다.</span>
-    <a href="https://github.com/heejeong-dev" target="_blank">github.com/heejeong-dev</a>
+    <span>박희정 포트폴리오 - 금융 이상 거래 탐지 플랫폼</span>
+    <a href="https://github.com/hee-03" target="_blank">github.com/hee-03</a>
   </div>
 
 </div>
