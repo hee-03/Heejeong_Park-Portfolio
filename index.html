@@ -18,7 +18,7 @@
     <div class="header-inner">
       <div class="header-left">
         <h1>박희정</h1>
-        <p class="subtitle">FFG 금융 이상거래 탐지 플랫폼 · 풀스택 참여</p>
+        <p class="subtitle">금융 이상거래 탐지 플랫폼 · 풀스택 참여</p>
         <span class="role-badge">Full Stack Developer</span>
       </div>
       <div class="header-right">
@@ -32,11 +32,11 @@
 
   <!-- TAB NAV -->
   <div class="tab-nav">
-    <button class="tab-btn amber-tab"    onclick="switchTab('ai', this)">
-      <span class="tab-dot dot-amber"></span> AI 분석
-    </button>
     <button class="tab-btn active"        onclick="switchTab('dashboard', this)">
       <span class="tab-dot dot-blue"></span> 대시보드
+    </button>
+    <button class="tab-btn amber-tab"    onclick="switchTab('ai', this)">
+      <span class="tab-dot dot-amber"></span> AI 분석
     </button>
     <button class="tab-btn teal-tab"      onclick="switchTab('chat', this)">
       <span class="tab-dot dot-teal"></span> 채팅
@@ -57,13 +57,13 @@
         <table class="overview-table">
           <tr><td>프로젝트명</td><td>FFG 금융 이상거래 탐지 플랫폼 (FDS Dashboard)</td></tr>
           <tr><td>담당 역할</td><td>프론트엔드 개발 — 관리자 대시보드 · 은행 대시보드</td></tr>
-          <tr><td>기술 스택</td><td>React · TypeScript · Chart.js · Axios · JWT · Styled-Components</td></tr>
-          <tr><td>백엔드</td><td>FastAPI (Python) · PostgreSQL</td></tr>
-          <tr><td>협업 도구</td><td>Git / GitHub · Figma · Notion</td></tr>
+          <tr><td>기술 스택</td><td> Vue · Flask · TypeScript · Chart.js · Axios</td></tr>
+          <tr><td>백엔드</td><td>FastAPI (Python) · MyBatis · OracleDB</td></tr>
+          <tr><td>협업 도구</td><td>Git / GitHub · Figma · Canva · Google Drive</td></tr>
         </table>
         <div class="desc-box blue">
           금융권 이상 거래를 실시간으로 탐지·시각화하는 플랫폼입니다.
-          관리자(FFG)는 전체 은행의 이상 지표를 한눈에 모니터링하고,
+          관리자는 전체 은행의 이상 지표를 한눈에 모니터링하고,
           은행 담당자는 소속 은행의 고객별 이상 거래를 상세 분석할 수 있습니다.
         </div>
       </div>
@@ -83,8 +83,9 @@
             <ul class="impl-list blue">
               <li>전체 은행의 결제금액·거래위치·종합 이상 점수를 카드형 레이아웃으로 시각화</li>
               <li>Chart.js를 활용한 은행별 색상 구분 그래프 구현, 이상 점수 임계값 초과 항목 강조 표시</li>
-              <li>신규 은행 추가 시 별도 수정 없이 동적으로 카드 생성되는 데이터 드리븐 구조 설계</li>
-              <li>관리자 전용 접근 제한: JWT 토큰 기반 권한 검증, 비관리자 접근 시 리다이렉트 처리</li>
+              <!--TODO: 추가 예정<li>신규 은행 추가 시 별도 수정 없이 동적으로 카드 생성되는 데이터 드리븐 구조 설계</li>
+              하드 코딩 제거, 은행 목록을 DB에서 관리 - 데이터 드리븐-->
+              <li>관리자 전용 접근 제한: HTTP Session 기반 권한 검증, 비관리자 접근 시 리다이렉트 처리</li>
             </ul>
             <div class="sub-label blue">기술 포인트</div>
             <ul class="tech-list">
